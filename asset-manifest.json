@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/mister-bitcoint-react/static/css/main.6b0ded94.chunk.css",
+    "main.js": "/mister-bitcoint-react/static/js/main.113b845d.chunk.js",
+    "main.js.map": "/mister-bitcoint-react/static/js/main.113b845d.chunk.js.map",
+    "runtime-main.js": "/mister-bitcoint-react/static/js/runtime-main.3be6aca1.js",
+    "runtime-main.js.map": "/mister-bitcoint-react/static/js/runtime-main.3be6aca1.js.map",
+    "static/js/2.bec96968.chunk.js": "/mister-bitcoint-react/static/js/2.bec96968.chunk.js",
+    "static/js/2.bec96968.chunk.js.map": "/mister-bitcoint-react/static/js/2.bec96968.chunk.js.map",
+    "static/js/3.c4c87977.chunk.js": "/mister-bitcoint-react/static/js/3.c4c87977.chunk.js",
+    "static/js/3.c4c87977.chunk.js.map": "/mister-bitcoint-react/static/js/3.c4c87977.chunk.js.map",
+    "index.html": "/mister-bitcoint-react/index.html",
+    "static/css/main.6b0ded94.chunk.css.map": "/mister-bitcoint-react/static/css/main.6b0ded94.chunk.css.map",
+    "static/js/2.bec96968.chunk.js.LICENSE.txt": "/mister-bitcoint-react/static/js/2.bec96968.chunk.js.LICENSE.txt",
+    "static/media/main.scss": "/mister-bitcoint-react/static/media/RobotoSlab-Regular.33daf006.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3be6aca1.js",
+    "static/js/2.bec96968.chunk.js",
+    "static/css/main.6b0ded94.chunk.css",
+    "static/js/main.113b845d.chunk.js"
+  ]
+}
