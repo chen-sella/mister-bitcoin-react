@@ -1,0 +1,78 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { contactService } from '../../services/contactService.js';
+import './ContactEditPage.scss';
+
+export class ContactEditPage extends Component {
+  state = {
+    contact: null,
+    errMsg: '',
+  };
+
+  async componentDidMount() {
+    const { id } = this.props.match.params;
+    try {
+      const contact = id ? await contactService.getContactById(id) : contactService.getEmptyContact();
+      this.setState({ contact });
+    } catch (err) {
+      this.setState({ errMsg: 'Contact Not Found' });
+    }
+  }
+
+  handleChange = ({ target }) => {
+    const field = target.name;
+    const value = target.type === 'number' ? +target.value : target.value;
+    this.setState((prevState) => ({ contact: { ...prevState.contact, [field]: value } }));
+  };
+
+  onSaveContact = async (ev) => {
+    ev.preventDefault();
+    await contactService.saveContact({ ...this.state.contact });
+    this.props.history.push('/contact');
+  };
+
+  onDeleteContact = async () => {
+    await contactService.deleteContact(this.state.contact._id);
+    this.props.history.push('/contact');
+  };
+
+  get back() {
+    return this.state.contact._id ? this.state.contact._id : '';
+  }
+
+  render() {
+    if (!this.state.contact) return <div>{this.state.errMsg || 'Loading'}</div>;
+    const { name, email, phone } = this.state.contact;
+    return (
+      <div className='flex column align-center main-layout contact-edit'>
+        <div className='flex align-center space-between actions'>
+          <Link className='flex align-center justify-center' to={'/contact/' + this.back}>
+            <img title='Back' src={require('../../assets/img/back-purple.png').default} alt='' />
+          </Link>
+          {this.state.contact._id && (
+            <button className='flex align-center justify-center' onClick={this.onDeleteContact}>
+              <img title='Delete' src={require('../../assets/img/trash.png').default} alt='' />
+            </button>
+          )}
+        </div>
+        <form onSubmit={this.onSaveContact}>
+          <div className='flex align-center input-container'>
+            <label htmlFor='name'>Name:</label>
+            <input required name='name' type='text' id='name' value={name} onChange={this.handleChange} />
+          </div>
+          <div className='flex align-center input-container'>
+            <label htmlFor='email'>Email:</label>
+            <input required name='email' type='email' id='email' value={email} onChange={this.handleChange} />
+          </div>
+          <div className='flex align-center input-container'>
+            <label htmlFor='phone'>Phone:</label>
+            <input required name='phone' type='tel' id='phone' value={phone} onChange={this.handleChange} />
+          </div>
+
+          <p>{this.state.errMsg}</p>
+          <button>Save Contact</button>
+        </form>
+      </div>
+    );
+  }
+}

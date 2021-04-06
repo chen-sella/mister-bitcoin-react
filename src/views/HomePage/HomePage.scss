@@ -1,0 +1,22 @@
+.home-page {
+  & > .container:not(:last-of-type) {
+    margin-block-end: 10px;
+  }
+
+  h1 {
+    text-transform: capitalize;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    width: 200px;
+    justify-content: flex-start;
+
+    p {
+      font-size: 16px;
+    }
+    img {
+      margin-inline-end: 10px;
+    }
+  }
+}

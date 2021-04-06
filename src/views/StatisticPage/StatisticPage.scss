@@ -1,0 +1,7 @@
+.statistic-page {
+
+  & > :not(:last-child) {
+    margin-block-end: 10px;
+  }
+
+}

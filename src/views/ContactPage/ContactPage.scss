@@ -1,0 +1,21 @@
+.contact-page {
+
+  .container {
+    margin-block-end: 10px;
+
+    & > :not(:last-child) {
+      margin-inline-end: 20px;
+    }
+
+    a {
+      background-color: #eceaea;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      
+      &:hover {
+        background-color: #c4c1c1;
+      }
+    }
+  }
+}

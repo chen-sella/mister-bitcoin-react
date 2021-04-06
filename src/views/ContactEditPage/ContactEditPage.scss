@@ -1,0 +1,55 @@
+.contact-edit {
+  & > :not(:last-child) {
+    margin-block-end: 20px;
+  }
+
+  .actions {
+    width: 310px;
+
+    & > :not(:last-child) {
+      margin-inline-end: 10px;
+    }
+    a,
+    button {
+      background-color: #eceaea;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      border: none;
+
+      &:hover {
+        background-color: #c4c1c1;
+      }
+    }
+  }
+
+  form {
+    & > :not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+    .input-container {
+      label {
+        margin-inline-end: 10px;
+      }
+      input {
+        border: 1px solid #eceaea;
+        padding: 15px;
+        border-radius: 25px;
+        width: 250px;
+      }
+    }
+
+    button {
+      border: 1px solid #eceaea;
+      padding: 10px;
+      border-radius: 25px;
+      width: 310px;
+      cursor: pointer;
+      &:hover {
+        background-color: #c4c1c1;
+      }
+    }
+  }
+}
