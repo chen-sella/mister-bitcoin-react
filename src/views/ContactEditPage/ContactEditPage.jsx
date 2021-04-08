@@ -30,13 +30,11 @@ class _ContactEditPage extends Component {
   onSaveContact = async (ev) => {
     ev.preventDefault();
     await this.props.saveContact({ ...this.state.contact });
-    // await contactService.saveContact({ ...this.state.contact });
     this.props.history.push('/contact');
   };
 
   onDeleteContact = async () => {
     await this.props.removeContact(this.state.contact._id);
-    // await contactService.deleteContact(this.state.contact._id);
     this.props.history.push('/contact');
   };
 
@@ -72,7 +70,6 @@ class _ContactEditPage extends Component {
             <label htmlFor='phone'>Phone:</label>
             <input required name='phone' type='tel' id='phone' value={phone} onChange={this.handleChange} />
           </div>
-
           <p>{this.state.errMsg}</p>
           <button>Save Contact</button>
         </form>

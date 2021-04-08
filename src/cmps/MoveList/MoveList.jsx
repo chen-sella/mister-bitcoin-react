@@ -1,22 +1,16 @@
-import { connect } from 'react-redux';
-import { setUser } from '../../store/actions/userActions.js';
-
+import { MovePreview } from '../MovePreview/MovePreview.jsx';
 import './MoveList.scss';
 
-const _MoveList = ({ user }) => {
-  console.log(user);
+export const MoveList = ({ contactMoves }) => {
+  console.log(contactMoves);
   return (
-        <div className='move-list'>
-            {/* {user.moves.map(move=>move.toId === currContact._id)} */}
-        </div>);
+    <section className='move-list'>
+      <h2>Your Moves:</h2>
+      <ul className='clean-list'>
+        {contactMoves.map((move,idx) => (
+          <MovePreview move={move} key={idx}></MovePreview>
+        ))}
+      </ul>
+    </section>
+  );
 };
-
-const mapStateToProps = (state) => ({
-  user: state.userReducer.user,
-});
-
-const mapDispatchToProps = {
-  setUser,
-};
-
-export const MoveList = connect(mapStateToProps, mapDispatchToProps)(_MoveList);

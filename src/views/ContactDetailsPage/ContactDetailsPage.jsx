@@ -11,25 +11,31 @@ import './ContactDetailsPage.scss';
 class _ContactDetailsPage extends Component {
   state = {
     amount: null,
+    contactMoves: null,
   };
 
   componentDidMount() {
-    this.loadRobot();
+    this.loadContact();
+    this.contactMoves();
   }
 
-  async loadRobot() {
+  async loadContact() {
     await this.props.getContactById(this.props.match.params.id);
   }
 
   onTransferCoins = (ev) => {
     ev.preventDefault();
-    console.log(this.props);
     this.props.addMove(this.props.contact, this.state.amount, this.props.user._id);
   };
 
   handleChange = ({ target }) => {
     const value = target.type === 'number' ? +target.value : target.value;
     this.setState({ amount: value });
+  };
+
+  contactMoves = () => {
+    const contactMoves = this.props.user.moves.filter((move) => move.toId === this.props.contact._id);
+    this.setState({ contactMoves });
   };
 
   render() {
@@ -42,7 +48,9 @@ class _ContactDetailsPage extends Component {
         <p>Email: {contact.email}</p>
         <p>Phone: {contact.phone}</p>
         <TransferFund name={contact.name} onTransferCoins={this.onTransferCoins} handleChange={this.handleChange} />
-        {/* <MoveList /> */}
+        {this.state.contactMoves && this.state.contactMoves.length > 0 && (
+          <MoveList contactMoves={this.state.contactMoves} />
+        )}
         <div className='flex align-center justify-center actions'>
           <Link className='flex align-center justify-center' to='/contact'>
             <img title='Back' src={require('../../assets/img/back.png').default} alt='' />
