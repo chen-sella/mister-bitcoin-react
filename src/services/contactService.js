@@ -1,4 +1,4 @@
-import { storageService } from './storageService.js';
+import { storageService } from './async-storage.service.js';
 
 export const contactService = {
   getContacts,
@@ -128,7 +128,7 @@ const gDefaultContacts = [
 
 const STORAGE_KEY = 'contacts';
 
-var gContacts = _loadContacts();
+_loadContacts();
 
 function sort(arr) {
   return arr.sort((a, b) => {
@@ -143,57 +143,51 @@ function sort(arr) {
   });
 }
 
-function getContacts(filterBy = null) {
-  return new Promise((resolve, reject) => {
-    var contactsToReturn = gContacts;
+async function getContacts(filterBy = null) {
+  var contactsToReturn;
+  try {
+    const contacts = await storageService.query(STORAGE_KEY);
     if (filterBy && filterBy.term) {
-      contactsToReturn = filter(filterBy.term);
+      contactsToReturn = filter(filterBy.term, contacts);
+      return sort(contactsToReturn);
     }
-    resolve(sort(contactsToReturn));
-  });
+    return sort(contacts);
+  } catch (err) {
+    console.log('cant get contacts', err);
+  }
 }
 
-function getContactById(id) {
-  return new Promise((resolve, reject) => {
-    const contact = gContacts.find((contact) => contact._id === id);
-    contact ? resolve(contact) : reject(`Contact id ${id} not found!`);
-  });
+async function getContactById(id) {
+  try {
+    const contact = await storageService.get(STORAGE_KEY, id);
+    return contact;
+  } catch (err) {
+    console.log(`Contact id ${id} not found!`, err);
+  }
 }
 
-function deleteContact(id) {
-  return new Promise((resolve, reject) => {
-    const idx = gContacts.findIndex((contact) => contact._id === id);
-    if (idx !== -1) {
-      gContacts.splice(idx, 1);
+async function deleteContact(id) {
+  try {
+    await storageService.remove(STORAGE_KEY, id);
+    const contacts = storageService.query(STORAGE_KEY);
+    if (!contacts.length) storageService.store(STORAGE_KEY, gDefaultContacts);
+  } catch (err) {
+    console.log(`cant delete contact ${id}`, err);
+  }
+}
+
+async function saveContact(contact) {
+  var updatedContact;
+  try {
+    if (contact._id) {
+      updatedContact = await storageService.put(STORAGE_KEY, contact);
+    } else {
+      updatedContact = await storageService.post(STORAGE_KEY, contact);
     }
-    if (!gContacts.length) gContacts = gDefaultContacts.slice();
-    storageService.store(STORAGE_KEY, gContacts);
-    resolve(gContacts);
-  });
-}
-
-function _updateContact(contact) {
-  return new Promise((resolve, reject) => {
-    const index = gContacts.findIndex((c) => contact._id === c._id);
-    if (index !== -1) {
-      gContacts[index] = contact;
-    }
-    storageService.store(STORAGE_KEY, gContacts);
-    resolve(contact);
-  });
-}
-
-function _addContact(contact) {
-  return new Promise((resolve, reject) => {
-    contact._id = _makeId();
-    gContacts.push(contact);
-    storageService.store(STORAGE_KEY, gContacts);
-    resolve(contact);
-  });
-}
-
-function saveContact(contact) {
-  return contact._id ? _updateContact(contact) : _addContact(contact);
+    return updatedContact;
+  } catch (err) {
+    console.log(`cant save contact ${contact}`, err);
+  }
 }
 
 function getEmptyContact() {
@@ -204,9 +198,9 @@ function getEmptyContact() {
   };
 }
 
-function filter(term) {
+function filter(term, contacts) {
   term = term.toLocaleLowerCase();
-  return gContacts.filter((contact) => {
+  return contacts.filter((contact) => {
     return (
       contact.name.toLocaleLowerCase().includes(term) ||
       contact.phone.toLocaleLowerCase().includes(term) ||
@@ -216,17 +210,8 @@ function filter(term) {
 }
 
 function _loadContacts() {
-  let contacts = storageService.load(STORAGE_KEY);
+  let contacts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
   if (!contacts || !contacts.length) contacts = gDefaultContacts;
-  storageService.store(STORAGE_KEY, contacts);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
   return contacts;
-}
-
-function _makeId(length = 10) {
-  var txt = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (var i = 0; i < length; i++) {
-    txt += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return txt;
 }

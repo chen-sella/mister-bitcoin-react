@@ -1,25 +1,27 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { bitcoinService } from '../../services/bitcoinService.js';
-import { userService } from '../../services/userService.js';
+import { setUser } from '../../store/actions/userActions.js';
 
 import './HomePage.scss';
 
-export class HomePage extends Component {
+class _HomePage extends Component {
   state = {
-    user: null,
     bitcoinRate: null,
   };
 
   async componentDidMount() {
-    const user = await userService.getUserById('u101');
-    const bitcoinRate = await bitcoinService.getRate(user.coins);
-    this.setState({ user, bitcoinRate });
+    await this.props.setUser();
+    const bitcoinRate = await bitcoinService.getRate(this.props.user.coins);
+    this.setState({ bitcoinRate });
   }
+
   render() {
-    const { user, bitcoinRate } = this.state;
+    const { user } = this.props;
+    if (!user) return <div>Loading...</div>;
     return (
-      user && (
-        <div className='flex column align-center main-layout home-page'>
+      <section className='main-layout home-page'>
+        <div className='flex column align-center main-layout home-page-content'>
           <h1>Hello, {user.name}!</h1>
           <div className='flex align-center container'>
             <img alt='' src={require('../../assets/img/coins.png').default} />
@@ -30,11 +32,22 @@ export class HomePage extends Component {
           <div className='flex align-center container'>
             <img alt='' src={require('../../assets/img/bitcoin.png').default} />
             <p>
-              BTC: <span>{bitcoinRate}</span>
+              BTC: <span>{this.state.bitcoinRate}</span>
             </p>
           </div>
         </div>
-      )
+        <img className='bgc-img' src={require('../../assets/img/19197539.jpg').default} alt='' />
+      </section>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  user: state.userReducer.user,
+});
+
+const mapDispatchToProps = {
+  setUser,
+};
+
+export const HomePage = connect(mapStateToProps, mapDispatchToProps)(_HomePage);

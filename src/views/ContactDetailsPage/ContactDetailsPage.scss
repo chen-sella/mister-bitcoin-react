@@ -1,8 +1,8 @@
 .contact-details-page {
   margin: 20px auto;
   width: fit-content;
+  padding: 20px 50px;
   border: 1px solid #eceaea;
-  padding: 20px 80px;
   border-radius: 15px;
   background-color: white;
 
@@ -16,14 +16,14 @@
       margin-inline-end: 10px;
     }
     a {
-      background-color: #eceaea;
+      background-color: #fdefff;
       border-radius: 50%;
       width: 45px;
       height: 45px;
       cursor: pointer;
 
       &:hover {
-        background-color: #c4c1c1;
+        background-color: #e2cddd;
       }
     }
   }

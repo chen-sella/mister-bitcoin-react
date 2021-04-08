@@ -17,6 +17,11 @@ export function AppHeader() {
           </NavLink>
         </li>
         <li className="flex align-center justify-center">
+          <NavLink activeClassName='active' to='/signup'>
+          <img title="Signup" src={require('../../assets/img/add-user.png').default} alt=''></img>
+          </NavLink>
+        </li>
+        <li className="flex align-center justify-center">
           <NavLink activeClassName='active' to='/statistic'>
           <img title="Statistic" src={require('../../assets/img/chart.png').default} alt=''></img>
           </NavLink>

@@ -11,7 +11,7 @@
     }
     a,
     button {
-      background-color: #eceaea;
+      background-color: #fdefff;
       border-radius: 50%;
       width: 45px;
       height: 45px;
@@ -19,7 +19,7 @@
       border: none;
 
       &:hover {
-        background-color: #c4c1c1;
+        background-color: #e2cddd;
       }
     }
   }
@@ -46,9 +46,11 @@
       padding: 10px;
       border-radius: 25px;
       width: 310px;
+      background-color: #fdefff;
+
       cursor: pointer;
       &:hover {
-        background-color: #c4c1c1;
+        background-color: #e2cddd;
       }
     }
   }

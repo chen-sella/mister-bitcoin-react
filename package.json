@@ -2,7 +2,7 @@
   "name": "mister-bitcoin",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://chen-sella.github.io/mister-bitcoint-react",
+  "homepage": "https://chen-sella.github.io/mister-bitcoin-react",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
@@ -12,9 +12,12 @@
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-sparklines": "^1.7.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
